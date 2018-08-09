@@ -168,7 +168,7 @@ double ParticleFilter::likelihood(Observation *past, Observation *last)
 	*/
 	double ans = 1.0;
 	for(double &d : diff){
-		ans /= (1 + fabs(d));
+		ans /= (1 + fabs(d)/1000);
 	}
 
 	return ans;
