@@ -14,9 +14,9 @@
 #include "raspimouse_ros_2/TimedMotion.h"
 #include "raspimouse_ros_2/ButtonValues.h"
 #include "sensor_msgs/LaserScan.h"
-#include "raspimouse_gamepad_teach_and_replay/Event.h"
+#include "raspimouse_gamepad_teach_and_replay_sparse_urg/Event.h"
 #include "ParticleFilter.h"
-#include "raspimouse_gamepad_teach_and_replay/PFoEOutput.h"
+#include "raspimouse_gamepad_teach_and_replay_sparse_urg/PFoEOutput.h"
 using namespace ros;
 
 Episodes ep;
@@ -39,10 +39,10 @@ void buttonCallback(const raspimouse_ros_2::ButtonValues::ConstPtr& msg)
 
 void sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
-	int lf = (-pi*3.0/180 - msg->angle_min)/msg->angle_increment; 
-	int rf = (pi*3.0/180 - msg->angle_min)/msg->angle_increment; 
-	int ls = (-pi*45.0/180 - msg->angle_min)/msg->angle_increment; 
-	int rs = (pi*45.0/180 - msg->angle_min)/msg->angle_increment; 
+	int lf = (-pi*30.0/180 - msg->angle_min)/msg->angle_increment; 
+	int rf = (pi*30.0/180 - msg->angle_min)/msg->angle_increment; 
+	int ls = (-pi*90.0/180 - msg->angle_min)/msg->angle_increment; 
+	int rs = (pi*90.0/180 - msg->angle_min)/msg->angle_increment; 
 
 	double lfv = isnan(msg->ranges[lf]) ? 500.0 : msg->ranges[lf]*1000;
 	double rfv = isnan(msg->ranges[rf]) ? 500.0 : msg->ranges[rf]*1000;
@@ -75,7 +75,7 @@ void readEpisodes(string file)
 	double start = view.getBeginTime().toSec() + 5.0; //discard first 5 sec
 	double end = view.getEndTime().toSec() - 5.0; //discard last 5 sec
 	for(auto i : view){
-	        auto s = i.instantiate<raspimouse_gamepad_teach_and_replay::Event>();
+	        auto s = i.instantiate<raspimouse_gamepad_teach_and_replay_sparse_urg::Event>();
 
 		Observation obs(s->left_forward,s->left_side,s->right_side,s->right_forward);
 		Action a = {s->linear_x,s->angular_z};
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
 	Subscriber sub = n.subscribe("/scan", 1, sensorCallback);
 	Subscriber sub_b = n.subscribe("buttons", 1, buttonCallback);
 	Publisher cmdvel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-	Publisher pfoe_out = n.advertise<raspimouse_gamepad_teach_and_replay::PFoEOutput>("pfoe_out", 100);
+	Publisher pfoe_out = n.advertise<raspimouse_gamepad_teach_and_replay_sparse_urg::PFoEOutput>("pfoe_out", 100);
 	ros::ServiceClient motor_on = n.serviceClient<std_srvs::Trigger>("motor_on");
 	ros::ServiceClient tm = n.serviceClient<raspimouse_ros_2::TimedMotion>("timed_motion");
 
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 			loop_rate.sleep();
 			continue;
 		}
-		raspimouse_gamepad_teach_and_replay::PFoEOutput out;
+		raspimouse_gamepad_teach_and_replay_sparse_urg::PFoEOutput out;
 
 		act = pf.sensorUpdate(&sensor_values, &act, &ep, &out);
 		msg.linear.x = act.linear_x;

@@ -9,8 +9,8 @@
 	<node pkg="urg_node" name="urg_node" type="urg_node" required="true" >
 		<param name="frame_id" value="base_link"/>
 	</node>
-	<node pkg="raspimouse_gamepad_teach_and_replay" name="logicool_training" type="logicool_training.py" required="true" output="screen" />
-	<node pkg="raspimouse_gamepad_teach_and_replay" name="logger" type="logger.py" required="true" output="screen" />
-	<node pkg="raspimouse_gamepad_teach_and_replay" name="ledcontrol" type="ledcontrol.py" required="true" output="screen" />
-	<node pkg="raspimouse_gamepad_teach_and_replay" name="replay" type="replay" required="true" output="screen" />
+	<node pkg="raspimouse_gamepad_teach_and_replay_sparse_urg" name="logicool_training" type="logicool_training.py" required="true" output="screen" />
+	<node pkg="raspimouse_gamepad_teach_and_replay_sparse_urg" name="logger" type="logger.py" required="true" output="screen" />
+	<node pkg="raspimouse_gamepad_teach_and_replay_sparse_urg" name="ledcontrol" type="ledcontrol.py" required="true" output="screen" />
+	<node pkg="raspimouse_gamepad_teach_and_replay_sparse_urg" name="replay" type="replay" required="true" output="screen" />
 </launch>

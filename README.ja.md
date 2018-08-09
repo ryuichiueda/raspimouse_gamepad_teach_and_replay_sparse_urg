@@ -1,4 +1,4 @@
-# raspimouse_gamepad_teach_and_replay
+# raspimouse_gamepad_teach_and_replay_sparse_urg
 デモ用
 
 ## 操作方法

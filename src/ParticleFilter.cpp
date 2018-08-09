@@ -102,7 +102,7 @@ Action ParticleFilter::average(Episodes *ep)
 	return a;
 }
 
-Action ParticleFilter::sensorUpdate(Observation *obs, Action *act, Episodes *ep, raspimouse_gamepad_teach_and_replay::PFoEOutput *out)
+Action ParticleFilter::sensorUpdate(Observation *obs, Action *act, Episodes *ep, raspimouse_gamepad_teach_and_replay_sparse_urg::PFoEOutput *out)
 {
 	out->eta = 0.0;
 	cout << "obs likelihood" << endl;
